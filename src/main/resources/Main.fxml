@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.main.controllers.Main">
+   <children>
+      <Button fx:id="btnJasper" onAction="#btnClick" layoutX="88.0" layoutY="340.0" mnemonicParsing="false" text="Сформировать отчет" />
+      <Button fx:id="btnApache" onAction="#btnClick" layoutX="524.0" layoutY="340.0" mnemonicParsing="false" text="Сформировать отчет" />
+      <Label layoutX="97.0" layoutY="287.0" text="Jasper Report" textFill="#f20000">
+         <font>
+            <Font name="Times New Roman Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="543.0" layoutY="287.0" text="Apache POI" textFill="#2f00ff">
+         <font>
+            <Font name="Times New Roman Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
