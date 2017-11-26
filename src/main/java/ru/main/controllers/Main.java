@@ -6,8 +6,7 @@ import javafx.scene.control.Button;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.main.logic.ApachPoiWord;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -33,17 +32,23 @@ public class Main {
             String fullPath = Main.class.getClassLoader().getResource("docs/Readme.txt").getPath();
             String templatePath = Main.class.getClassLoader().getResource("docs/templates.docx").getPath();
             String path = fullPath.substring(0,fullPath.length()-10);
+
             Map<String,String> replacer = new HashMap<String,String>();
             String newPath = path+"test5"+".docx";
             replacer.put("$name","Billy");
             replacer.put("$age","23");
             replacer.put("$main","Iam");
-            apachPoiWord.createEmptyWordDoc(path,"test");
-            apachPoiWord.createFillWordDoc(path,"test1",fullPath);
-            apachPoiWord.createFillWordDocWithBorder(path,"test2",fullPath);
-            apachPoiWord.createWordDocWithTable(path,"test3");
-            apachPoiWord.createDocWithStyle(path,"test4");
-            apachPoiWord.fillReportDoc(templatePath,newPath,replacer);
+
+            String newPath1 = path + "test6" + ".docx";
+            List<String> list = new ArrayList<String>(Arrays.asList("1","2","3"));
+
+//            apachPoiWord.createEmptyWordDoc(path,"test");
+//            apachPoiWord.createFillWordDoc(path,"test1",fullPath);
+//            apachPoiWord.createFillWordDocWithBorder(path,"test2",fullPath);
+//            apachPoiWord.createWordDocWithTable(path,"test3");
+//            apachPoiWord.createDocWithStyle(path,"test4");
+//            apachPoiWord.fillReportDoc(templatePath,newPath,replacer);
+            apachPoiWord.insertParagraphIntoDoc(templatePath,newPath1,list);
 
         } else if(event.getSource() == btnJasper){
             System.out.println("Jasper");

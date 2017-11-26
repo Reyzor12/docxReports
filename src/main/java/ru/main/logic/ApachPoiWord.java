@@ -3,6 +3,7 @@ package ru.main.logic;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
+import org.apache.xmlbeans.XmlCursor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -140,5 +142,46 @@ public class ApachPoiWord {
             e.printStackTrace();
         }
         System.out.println("Document are filled");
+    }
+
+    public void insertParagraphIntoDoc(String filePath, String fileSave, List<String> repors){
+        XWPFDocument document = null;
+        try{
+            document = new XWPFDocument(OPCPackage.open(filePath));
+            for(XWPFParagraph paragraph : document.getParagraphs()){
+                System.out.println(1);
+                String text = paragraph.getRuns().get(0).getText(0);
+                System.out.println(text);
+                if(text.contains("$list")){
+                    System.out.println(2);
+                    if(paragraph != null){
+                        System.out.println(3);
+                        XWPFDocument doc = paragraph.getDocument();
+                        System.out.println(4);
+                        XmlCursor cursor = paragraph.getCTP().newCursor();
+                        System.out.println(5);
+                        for(int i = 0; i < repors.size();i++){
+                            XWPFParagraph par = doc.createParagraph();
+                            System.out.println(i);
+                            par.getCTP().setPPr(paragraph.getCTP().getPPr());
+                            XWPFRun run1 = par.createRun();
+                            run1.getCTR().setRPr(paragraph.getRuns().get(0).getCTR().getRPr());
+                            run1.setText(repors.get(i));
+                            XmlCursor cursor2 = par.getCTP().newCursor();
+                            cursor2.moveXml(cursor2);
+                            cursor2.dispose();
+                        }
+                        cursor.removeXml();
+                        cursor.dispose();
+                    }
+                }
+            }
+            document.write(new FileOutputStream(fileSave));
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Document are filled with new Paragraph");
     }
 }
