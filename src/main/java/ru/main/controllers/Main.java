@@ -48,8 +48,10 @@ public class Main {
 //            apachPoiWord.createWordDocWithTable(path,"test3");
 //            apachPoiWord.createDocWithStyle(path,"test4");
 //            apachPoiWord.fillReportDoc(templatePath,newPath,replacer);
-            apachPoiWord.insertParagraphIntoDoc(templatePath,newPath1,list);
-
+//            apachPoiWord.insertParagraphIntoDoc(templatePath,newPath1,list);
+//            apachPoiWord.insertParagrathInMiddle(templatePath,newPath1,list);
+//            apachPoiWord.fillParagraphsInMid(templatePath,newPath1,list);
+            apachPoiWord.reportActual(templatePath,newPath1,replacer,list);
         } else if(event.getSource() == btnJasper){
             System.out.println("Jasper");
         }

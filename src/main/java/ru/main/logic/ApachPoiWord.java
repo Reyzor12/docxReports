@@ -149,20 +149,13 @@ public class ApachPoiWord {
         try{
             document = new XWPFDocument(OPCPackage.open(filePath));
             for(XWPFParagraph paragraph : document.getParagraphs()){
-                System.out.println(1);
                 String text = paragraph.getRuns().get(0).getText(0);
-                System.out.println(text);
                 if(text.contains("$list")){
-                    System.out.println(2);
                     if(paragraph != null){
-                        System.out.println(3);
                         XWPFDocument doc = paragraph.getDocument();
-                        System.out.println(4);
                         XmlCursor cursor = paragraph.getCTP().newCursor();
-                        System.out.println(5);
                         for(int i = 0; i < repors.size();i++){
                             XWPFParagraph par = doc.createParagraph();
-                            System.out.println(i);
                             par.getCTP().setPPr(paragraph.getCTP().getPPr());
                             XWPFRun run1 = par.createRun();
                             run1.getCTR().setRPr(paragraph.getRuns().get(0).getCTR().getRPr());
@@ -174,6 +167,7 @@ public class ApachPoiWord {
                         cursor.removeXml();
                         cursor.dispose();
                     }
+                    break;
                 }
             }
             document.write(new FileOutputStream(fileSave));
@@ -183,5 +177,115 @@ public class ApachPoiWord {
             e.printStackTrace();
         }
         System.out.println("Document are filled with new Paragraph");
+    }
+
+    public void insertParagrathInMiddle(String filePath, String fileSave, List<String> list){
+
+        XWPFDocument document = null;
+        try{
+            document = new XWPFDocument(OPCPackage.open(filePath));
+            for(XWPFParagraph paragraph : document.getParagraphs()){
+                String text = paragraph.getText();
+                System.out.println(text);
+                if(text.contains("$list")){
+                    XmlCursor cursor = paragraph.getCTP().newCursor();
+                    XWPFParagraph newParagraph = document.insertNewParagraph(cursor);
+                    newParagraph.createRun().setText("Hello World");
+                    break;
+                }
+            }
+            document.write(new FileOutputStream(fileSave));
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("insertParagrathInMiddle created");
+    }
+
+    public void fillParagraphsInMid(String filePath,String fileSave, List<String> list){
+        XWPFDocument document = null;
+        try{
+            document = new XWPFDocument(OPCPackage.open(filePath));
+            List<XWPFParagraph> paragraphs = document.getParagraphs();
+            for(XWPFParagraph paragraph : paragraphs){
+                String text = paragraph.getText();
+                System.out.println(text);
+                if(text.contains("$list")){
+                    XmlCursor cursor = paragraph.getCTP().newCursor();
+                    XWPFParagraph par = document.insertNewParagraph(cursor);
+                    par.createRun().setText("Hello World");
+
+                    cursor.dispose();
+                    XmlCursor cursor1 = par.getCTP().newCursor();
+//                    cursor1.moveXml(cursor1);
+                    XWPFParagraph par1 = document.insertNewParagraph(cursor1);
+                    par1.createRun().setText("Double Hello world");
+                    cursor1.dispose();
+                    XmlCursor cursor2 = paragraph.getCTP().newCursor();
+                    cursor2.removeXml();
+                    cursor2.dispose();
+
+
+
+                    System.out.println(paragraphs.size());
+                    break;
+                }
+            }
+            document.write(new FileOutputStream(fileSave));
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("fillParagraphsInMid");
+    }
+
+    public void reportActual(String filePath,String fileSave,Map<String,String>replacer, List<String> list){
+        XWPFDocument document = null;
+        try{
+            document = new XWPFDocument(OPCPackage.open(filePath));
+            for(XWPFParagraph paragraph : document.getParagraphs()){
+                for(String key : replacer.keySet()){
+                    if(paragraph.getText().contains(key)){
+                        paragraph.getRuns().get(0).setText(
+                                paragraph.getRuns().get(0).getText(0).replace(key,replacer.get(key))
+                                ,0);
+                    }
+                }
+            }
+            for(XWPFTable table : document.getTables()){
+                for(XWPFTableRow row : table.getRows()){
+                    for(XWPFTableCell cell : row.getTableCells()){
+                        for(XWPFParagraph paragraph : cell.getParagraphs()){
+                            for(String key : replacer.keySet()){
+                                if(paragraph.getText().contains(key)){
+                                    paragraph.getRuns().get(0).setText(
+                                            paragraph.getRuns().get(0).getText(0).replace(key,replacer.get(key))
+                                            ,0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for(XWPFParagraph paragraph: document.getParagraphs()){
+                if(paragraph.getText().contains("$list")){
+                    for(String item : list){
+                        XmlCursor cursor = paragraph.getCTP().newCursor();
+                        document.insertNewParagraph(cursor).createRun().setText(item);
+                    }
+                    paragraph.removeRun(0);
+//                    paragraph.getRuns().get(0).setText("",0);
+                    break;
+                }
+            }
+            document.write(new FileOutputStream(fileSave));
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("reportActual");
     }
 }
