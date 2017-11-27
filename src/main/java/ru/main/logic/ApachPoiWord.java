@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -287,5 +289,27 @@ public class ApachPoiWord {
             e.printStackTrace();
         }
         System.out.println("reportActual");
+    }
+
+    public void actionReport1(String fileSave, List<String> replacer,List<String> list){
+        XWPFDocument document = null;
+        try{
+            List<String> rows = new ArrayList<String>(Arrays.asList(
+                    "My name is "+replacer.get(0)+"! Your age "+replacer.get(1)+ ".",
+                    "Your address are $address.",
+                    "List of work:"));
+            document = new XWPFDocument();
+            for(int i = 0;i<3;i++){
+                document.createParagraph().createRun().setText(rows.get(i));
+            }
+            for(int i = 0; i < list.size(); i++){
+                document.createParagraph().createRun().setText(list.get(i));
+            }
+            document.createParagraph().createRun().setText("Main man " + replacer.get(2));
+            document.write(new FileOutputStream(fileSave));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        System.out.println("actionReport1");
     }
 }

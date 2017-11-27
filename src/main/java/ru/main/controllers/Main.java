@@ -40,7 +40,9 @@ public class Main {
             replacer.put("$main","Iam");
 
             String newPath1 = path + "test6" + ".docx";
+            String newPath2 = path + "test7" + ".docx";
             List<String> list = new ArrayList<String>(Arrays.asList("1","2","3"));
+            List<String> replacer1 = new ArrayList(Arrays.asList("Billy","23","Iam"));
 
 //            apachPoiWord.createEmptyWordDoc(path,"test");
 //            apachPoiWord.createFillWordDoc(path,"test1",fullPath);
@@ -51,7 +53,8 @@ public class Main {
 //            apachPoiWord.insertParagraphIntoDoc(templatePath,newPath1,list);
 //            apachPoiWord.insertParagrathInMiddle(templatePath,newPath1,list);
 //            apachPoiWord.fillParagraphsInMid(templatePath,newPath1,list);
-            apachPoiWord.reportActual(templatePath,newPath1,replacer,list);
+//            apachPoiWord.reportActual(templatePath,newPath1,replacer,list);
+            apachPoiWord.actionReport1(newPath2,replacer1,list);
         } else if(event.getSource() == btnJasper){
             System.out.println("Jasper");
         }
