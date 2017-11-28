@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.main.logic.ApachPoiWord;
+import ru.main.logic.JasperReportLogic;
 import ru.main.logic.TestTime;
 
 import java.util.*;
@@ -70,6 +71,13 @@ public class Main {
             System.out.println(TestTime.evaluationTime("ru.main.logic.ApachPoiWord","reportActual",cl1,ol1));
         } else if(event.getSource() == btnJasper){
             System.out.println("Jasper");
+            String fullPath = Main.class.getClassLoader().getResource("docs/Readme.txt").getPath();
+            String templatePath = Main.class.getClassLoader().getResource("docs/jasperTemplates.jasper").getPath();
+            String path = fullPath.substring(0,fullPath.length()-10);
+            String newPath = path + "JasperPDF" + ".pdf";
+
+            JasperReportLogic.formJasperReport(templatePath,newPath);
+
         }
     }
 }
