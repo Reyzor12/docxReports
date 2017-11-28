@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.main.logic.ApachPoiWord;
+import ru.main.logic.TestTime;
 
 import java.util.*;
 
@@ -53,8 +54,20 @@ public class Main {
 //            apachPoiWord.insertParagraphIntoDoc(templatePath,newPath1,list);
 //            apachPoiWord.insertParagrathInMiddle(templatePath,newPath1,list);
 //            apachPoiWord.fillParagraphsInMid(templatePath,newPath1,list);
-//            apachPoiWord.reportActual(templatePath,newPath1,replacer,list);
+            /*long start = System.nanoTime();
+            apachPoiWord.reportActual(templatePath,newPath1,replacer,list);
+            long end = System.nanoTime();
+            System.out.println(end-start);
+            start = System.nanoTime();
             apachPoiWord.actionReport1(newPath2,replacer1,list);
+            end = System.nanoTime();
+            System.out.println(end-start);*/
+            Class[] cl = new Class[]{String.class,List.class,List.class};
+            Class[] cl1 = new Class[]{String.class,String.class,Map.class,List.class};
+            Object[] ol = new Object[]{newPath2,replacer1,list};
+            Object[] ol1 = new Object[]{templatePath,newPath1,replacer,list};
+            System.out.println(TestTime.evaluationTime("ru.main.logic.ApachPoiWord","actionReport1",cl,ol));
+            System.out.println(TestTime.evaluationTime("ru.main.logic.ApachPoiWord","reportActual",cl1,ol1));
         } else if(event.getSource() == btnJasper){
             System.out.println("Jasper");
         }
