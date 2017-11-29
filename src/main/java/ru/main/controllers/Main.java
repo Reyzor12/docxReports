@@ -73,11 +73,18 @@ public class Main {
             System.out.println("Jasper");
             String fullPath = Main.class.getClassLoader().getResource("docs/Readme.txt").getPath();
             String templatePath = Main.class.getClassLoader().getResource("docs/jasperTemplates.jasper").getPath();
+            String templatePath1 = Main.class.getClassLoader().getResource("docs/ReportLook.jasper").getPath();
             String path = fullPath.substring(0,fullPath.length()-10);
             String newPath = path + "JasperPDF" + ".pdf";
+            String newPathDoc = path + "JasperDOCX" + ".docx";
+            String newPathDoc1 = path + "JasperDOCX1" + ".docx";
+            String newPathDoc2 = path + "JasperDOCX2" + ".docx";
 
-            JasperReportLogic.formJasperReport(templatePath,newPath);
-
+//            JasperReportLogic.formJasperReport(templatePath,newPath);
+//            JasperReportLogic.formJasperReportDoc(templatePath,newPathDoc);
+//            JasperReportLogic.formJRDoc(templatePath,newPathDoc1);
+//            JasperReportLogic.formJRDoc(templatePath1,newPathDoc2);
+            JasperReportLogic.showReport(templatePath,newPathDoc);
         }
     }
 }
