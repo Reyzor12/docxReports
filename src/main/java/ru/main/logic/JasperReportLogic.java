@@ -15,6 +15,8 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.view.JasperViewer;
 import ru.main.items.Report;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -95,8 +97,20 @@ public class JasperReportLogic {
         parameters.put("ItemDataSource",items);
         try{
             JasperPrint print = JasperFillManager.fillReport(tempPath, parameters,new JREmptyDataSource());
+            JasperViewer.viewReport(print);
+
             JasperViewer v = new JasperViewer(print);
-            v.show();
+
+            JFrame f = new JFrame("hehey");
+
+            Component[] components = v.getRootPane().getComponents();
+            for(Component c : components){
+//                f.add(c);
+            }
+            f.add(components[1]);
+            f.show();
+
+
         } catch (JRException e) {
             e.printStackTrace();
         }
